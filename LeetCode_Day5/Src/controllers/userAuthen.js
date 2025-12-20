@@ -22,8 +22,7 @@ const register = async (req, res) => {
 
     //    create jwt token
     const token = jwt.sign(
-      // 🔴 PEHLE GALAT: { id: user._id, ... }
-      // ✅ AB Sahi: _id use karo, middleware ke sath match karega
+
       {
         _id: user._id,
         email: user.email,
@@ -60,7 +59,7 @@ const login = async (req, res) => {
 
     // jwt token
     const token = jwt.sign(
-      // ✅ yaha pe tum already _id use kar rahe the – sahi hai
+
       {
         _id: user._id,
         email: user.email,
@@ -126,8 +125,6 @@ const adminregister = async (req, res) => {
 
     //    create jwt token
     const token = jwt.sign(
-      // 🔴 PEHLE GALAT: { id: user._id, ... }
-      // ✅ AB Sahi: _id use karo, middleware ke sath match karega
       {
         _id: user._id,
         email: user.email,
