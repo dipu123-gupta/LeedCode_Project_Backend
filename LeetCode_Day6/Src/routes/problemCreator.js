@@ -12,7 +12,7 @@ const {
 const adminMiddleware = require("../middleware/adminMiddleware.js");
 const userMiddleware = require("../middleware/userMiddleware.js");
 
-const problemRouter = express.Router(); // ✅ function call
+const problemRouter = express.Router(); 
 
 // Create problem (admin only)
 problemRouter.post("/createProblem", adminMiddleware, createProblem);
@@ -30,6 +30,6 @@ problemRouter.get("/getAllProblem", userMiddleware, getAllProblems);
 problemRouter.get("/getProblemById/:id",userMiddleware, getProblem);
 
 // // User ne kitne problem solve kiye (example route)
-// problemRouter.get("/problem/solvedByUser",userMiddleware, solvedProblem); // ✅ length() galat tha
+// problemRouter.get("/problem/solvedByUser",userMiddleware, solvedProblem); 
 
 module.exports = problemRouter;

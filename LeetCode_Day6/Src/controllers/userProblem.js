@@ -191,7 +191,7 @@ const updateProblem = async (req, res) => {
 };
 
 // deletedProblem
-const deleteProblem = async (req, res) => {
+const deleteProblem = async (req, res) => {  
   const { id } = req.params;
   try {
     if (!id) {
@@ -199,7 +199,7 @@ const deleteProblem = async (req, res) => {
     }
 
     const deletedProblem = await Problem.findByIdAndDelete(id);
-    if (!deleteProblem) {
+    if (!deletedProblem) {
       return res.status(404).send("Problem is missing");
     }
 
@@ -221,7 +221,7 @@ const getAllProblems = async (req, res) => {
     res.status(200).send(getAllProblem);
   } catch (error) {}
 };
-
+ 
 // getProblem by id
 const getProblem = async (req, res) => {
   try {

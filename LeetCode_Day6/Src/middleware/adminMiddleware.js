@@ -14,7 +14,6 @@ const adminMiddleware = async (req, res, next) => {
     const user = await User.findById(_id);
     if (!user) throw new Error("user does not exist");
 
-    // ✅ yahan se role check karo
     if (user.role !== "admin") {
       throw new Error("access denied, not admin");
     }

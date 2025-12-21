@@ -10,7 +10,6 @@ const userMiddleware = async (req, res, next) => {
 
     const payload = jwt.verify(token, process.env.JWT_KEY);
 
-    // ✅ yahi payload se _id check kar rahe ho – theek hai
     if (!payload._id) throw new Error("invalid token");
 
     const user = await User.findById(payload._id);
