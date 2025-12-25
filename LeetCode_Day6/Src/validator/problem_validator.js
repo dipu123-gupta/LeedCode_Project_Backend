@@ -1,5 +1,6 @@
 // src/validator/problem_validator.js
 const axios = require("axios");
+
 const getLanguageById = (lang) => {
   const language = {
     "c++": 54,
@@ -26,6 +27,7 @@ const submitBatch = async (submissions) => {
       submissions,
     },
   };
+
   async function fetchData() {
     try {
       const response = await axios.request(options);
@@ -34,22 +36,20 @@ const submitBatch = async (submissions) => {
       console.error(error);
     }
   }
+
   return await fetchData();
 };
 
+/* ✅ FIXED HERE — ONLY THIS CHANGE */
 const waiting = async (timer) => {
-  SocketTimeoutError(() => {
-    return 1;
-  }, timer);
+  return new Promise((resolve) => setTimeout(resolve, timer));
 };
 
 const submitToken = async (resultTokens) => {
-  // validation for resultTokens array
   if (!Array.isArray(resultTokens) || resultTokens.length === 0) {
     throw new Error("submitToken requires a non-empty array of tokens");
   }
 
-  // polling interval and timeout settings
   const options = {
     method: "GET",
     url: "https://judge0-ce.p.rapidapi.com/submissions/batch",
@@ -65,34 +65,30 @@ const submitToken = async (resultTokens) => {
   };
 
   async function fetchData() {
-      try {
-        const response = await axios.request(options);
-        return response.data;
-      } catch (error) {
-        console.error(error);
-      }
+    try {
+      const response = await axios.request(options);
+      return response.data;
+    } catch (error) {
+      console.error(error);
     }
+  }
 
   while (true) {
     try {
       const result = await fetchData();
 
-      // handle different response shapes
       const submissions = result.submissions || result;
 
-      // ensure array
       if (!Array.isArray(submissions)) {
         throw new Error("Unexpected submitToken response shape");
       }
 
-      // check if all submissions are done
       const allDone = submissions.every(
         (r) => typeof r.status_id === "number" && r.status_id > 2
       );
-      // return if done
+
       if (allDone) return submissions;
 
-      // wait before next poll
       await waiting(2000);
     } catch (err) {
       console.error(
